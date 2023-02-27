@@ -4,6 +4,7 @@ import { getGenres } from '../services/fakeGenreService';
 import { paginate } from '../utils/paginate';
 import Genre from './Genre';
 import Pagination from './Pagination';
+import MovieTable from './MovieTable';
 
 class Movies extends Component{
     state={
@@ -29,6 +30,27 @@ class Movies extends Component{
         const newMovies=this.state.genreMovies.filter(movie=>movie._id!==movieid)
         this.setState({genreMovies:newMovies})
     }
+    handleSort=(field)=>{
+        const moviesList=this.state.genreMovies
+        console.log(field)
+        switch(field){
+            case 'title':
+                moviesList.sort((a,b)=>a.title.localeCompare(b.title))
+                break;
+            case 'dailyRentalRate':
+                
+                moviesList.sort((a,b)=>a.dailyRentalRate > b.dailyRentalRate)
+                break;
+            case 'numberInStock':
+                moviesList.sort((a,b)=>a.numberInStock > b.numberInStock)
+                break;
+            default:
+                moviesList.sort()
+        }
+        
+        
+        this.setState({genreMovies:moviesList})   
+    }
     handlePageChange=(pageno)=>{
        
         this.setState({currentPage:pageno})
@@ -41,48 +63,34 @@ class Movies extends Component{
             <>
             <div className='row mt-5'>
                 <div className='col-3'>
-                <Genre genres={this.state.genres} onGenresChange={this.handleGenres} currentGenre={this.state.currentGenre}/>
+                <Genre 
+                genres={this.state.genres} 
+                onGenresChange={this.handleGenres} 
+                currentGenre={this.state.currentGenre}
+                />
                 </div>
+
                 <div className='col-9'>
-                {this.state.movies.length>0?(
+                {this.state.genreMovies.length>0?(
                     <p>Showing {this.state.genreMovies.length} movies in the database</p>
                 ): <p>There are no movies to display</p> }
 
+                <MovieTable 
+                Paginatedmovies={Paginatedmovies}
+                handleDelete={this.handleDelete}
+                handleSort={this.handleSort}
+                />
 
-                        <table className='table'>
-                        <thead>
-                            <tr>
-                            <th>Title</th>
-                            <th>Genre</th>
-                            <th>Stock</th>
-                            <th>Rate</th>
-                            <th>Delete</th>
-                            </tr>
-                        </thead>
-                          <tbody>
-                        {
-                        Paginatedmovies.map((item)=>(
-                            <tr key={item._id}>
-                                <td>{item.title}</td>
-                                <td>{item.genre.name}</td>
-                                <td>{item.numberInStock}</td>
-                                <td>{item.dailyRentalRate}</td>
-                                <td><button onClick={()=>this.handleDelete(item._id)} className='btn btn-danger'>Delete</button></td>
-                                
-                            </tr>                         
-                        ))
-                        }
-                     </tbody>
-                    </table>
-
-                    <Pagination pageSize={this.state.pageSize} totalRecords={this.state.genreMovies.length} onPageChange={this.handlePageChange}/>
+                <Pagination 
+                pageSize={this.state.pageSize} 
+                totalRecords={this.state.genreMovies.length} 
+                onPageChange={this.handlePageChange}
+                />
 
                 </div>
                 
 
             </div>
-               
-                
             </>
           )
     }
