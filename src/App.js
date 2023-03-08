@@ -5,6 +5,8 @@ import Navbar from './components/Navbar';
 import Customers from './components/Customers'
 import Rentals from './components/Rentals'
 import NotFound from './components/NotFound';
+import MovieDetails from './components/MovieDetails'
+import Login from './components/Login';
 
 function App() {
   return (
@@ -13,7 +15,8 @@ function App() {
       <Switch>
         <Route path="/customers" component={Customers}></Route>
         <Route path="/rentals" component={Rentals}></Route>
-        
+        <Route path="/moviesdetails/:id" component={MovieDetails}></Route>
+        <Route path="/login" component={Login}></Route>
         <Route path="/movies" component={Movies}></Route>
         <Route path="/" exact component={Movies}></Route>
         <Route path="/not-found" component={NotFound} />

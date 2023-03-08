@@ -1,8 +1,6 @@
 import React, { useState } from 'react'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faSortUp, faSortDown,faArrowUp,faArrowDown } from '@fortawesome/free-solid-svg-icons'
-import { icon } from '@fortawesome/fontawesome-svg-core'
-
+import { Link } from 'react-router-dom'
 
 const MovieTable = ({Paginatedmovies,handleDelete,handleSort,iconDisplay,stockIconDisplay,ratingIconDisplay}) => {
             const [order,setOrder]=useState("asc")
@@ -30,7 +28,7 @@ const MovieTable = ({Paginatedmovies,handleDelete,handleSort,iconDisplay,stockIc
                         {
                         Paginatedmovies.map((item)=>(
                             <tr key={item._id}>
-                                <td className='w-auto text-nowrap'>{item.title}</td>
+                                <td className='w-auto text-nowrap'><Link to={`/moviesdetails/${item._id}`}>{item.title}</Link></td>
                                 <td>{item.genre.name}</td>
                                 <td>{item.numberInStock}</td>
                                 <td>{item.dailyRentalRate}</td>
