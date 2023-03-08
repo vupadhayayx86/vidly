@@ -5,6 +5,9 @@ import { paginate } from '../utils/paginate';
 import Genre from './Genre';
 import Pagination from './Pagination';
 import MovieTable from './MovieTable';
+import { faSortUp, faSortDown,faArrowUp,faArrowDown } from '@fortawesome/free-solid-svg-icons'
+import Navbar from './Navbar';
+
 
 class Movies extends Component{
     state={
@@ -14,6 +17,10 @@ class Movies extends Component{
         pageSize:3,
         currentPage:1,
         currentGenre:"",
+        iconDisplay:faArrowDown,
+        stockIconDisplay:faArrowDown,
+        ratingIconDisplay:faArrowDown
+
     }
 
     handleGenres=(genrename)=>{
@@ -30,29 +37,44 @@ class Movies extends Component{
         const newMovies=this.state.genreMovies.filter(movie=>movie._id!==movieid)
         this.setState({genreMovies:newMovies})
     }
-    handleSort=(field)=>{
+    handleSort=(field,order)=>{
         const moviesList=this.state.genreMovies
-        console.log(field)
+        console.log(order)
         switch(field){
             case 'title':
                 moviesList.sort((a,b)=>a.title.localeCompare(b.title))
+                if(order=="asc"){
+                    this.setState({iconDisplay:faArrowUp})
+                } else {
+                    moviesList.reverse()
+                    this.setState({iconDisplay:faArrowDown})
+                }
                 break;
             case 'dailyRentalRate':
-                
-                moviesList.sort((a,b)=>a.dailyRentalRate > b.dailyRentalRate)
+                moviesList.sort((a,b)=>Number(a.dailyRentalRate) - Number(b.dailyRentalRate))
+                if(order=="asc"){
+                    this.setState({ratingIconDisplay:faArrowUp})
+                } else {
+                    moviesList.reverse()
+                    this.setState({ratingIconDisplay:faArrowDown})
+                }
                 break;
             case 'numberInStock':
-                moviesList.sort((a,b)=>a.numberInStock > b.numberInStock)
+                moviesList.sort((a,b)=>Number(a.numberInStock) - Number(b.numberInStock))
+                if(order=="asc"){
+                    this.setState({stockIconDisplay:faArrowUp})
+                } else {
+                    moviesList.reverse()
+                    this.setState({stockIconDisplay:faArrowDown})
+                }
                 break;
             default:
-                moviesList.sort()
+               
         }
-        
         
         this.setState({genreMovies:moviesList})   
     }
     handlePageChange=(pageno)=>{
-       
         this.setState({currentPage:pageno})
     }
 
@@ -61,6 +83,7 @@ class Movies extends Component{
         const Paginatedmovies=paginate(this.state.genreMovies,this.state.currentPage,this.state.pageSize)
         return (
             <>
+            
             <div className='row mt-5'>
                 <div className='col-3'>
                 <Genre 
@@ -79,6 +102,9 @@ class Movies extends Component{
                 Paginatedmovies={Paginatedmovies}
                 handleDelete={this.handleDelete}
                 handleSort={this.handleSort}
+                iconDisplay={this.state.iconDisplay}
+                stockIconDisplay={this.state.stockIconDisplay}
+                ratingIconDisplay={this.state.ratingIconDisplay}
                 />
 
                 <Pagination 
@@ -88,8 +114,6 @@ class Movies extends Component{
                 />
 
                 </div>
-                
-
             </div>
             </>
           )
