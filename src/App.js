@@ -7,6 +7,8 @@ import Rentals from './components/Rentals'
 import NotFound from './components/NotFound';
 import MovieDetails from './components/MovieDetails'
 import Login from './components/Login';
+import Register from './components/Register';
+import NewMovie from './components/NewMovie';
 
 function App() {
   return (
@@ -17,6 +19,8 @@ function App() {
         <Route path="/rentals" component={Rentals}></Route>
         <Route path="/moviesdetails/:id" component={MovieDetails}></Route>
         <Route path="/login" component={Login}></Route>
+        <Route path="/register" component={Register}></Route>
+        <Route path="/movies/new" component={NewMovie}></Route>
         <Route path="/movies" component={Movies}></Route>
         <Route path="/" exact component={Movies}></Route>
         <Route path="/not-found" component={NotFound} />

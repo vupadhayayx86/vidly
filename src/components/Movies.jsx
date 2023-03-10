@@ -7,6 +7,7 @@ import Pagination from './Pagination';
 import MovieTable from './MovieTable';
 import { faSortUp, faSortDown,faArrowUp,faArrowDown } from '@fortawesome/free-solid-svg-icons'
 import Navbar from './Navbar';
+import { NavLink } from 'react-router-dom';
 
 
 class Movies extends Component{
@@ -83,7 +84,6 @@ class Movies extends Component{
         const Paginatedmovies=paginate(this.state.genreMovies,this.state.currentPage,this.state.pageSize)
         return (
             <>
-            
             <div className='row mt-5'>
                 <div className='col-3'>
                 <Genre 
@@ -92,12 +92,13 @@ class Movies extends Component{
                 currentGenre={this.state.currentGenre}
                 />
                 </div>
-
+                
                 <div className='col-9'>
+                <div className='mb-2'><NavLink className="nav-link" to="/movies/new"><button className="btn btn-primary">New Movie</button></NavLink></div>
                 {this.state.genreMovies.length>0?(
                     <p>Showing {this.state.genreMovies.length} movies in the database</p>
                 ): <p>There are no movies to display</p> }
-
+                
                 <MovieTable 
                 Paginatedmovies={Paginatedmovies}
                 handleDelete={this.handleDelete}
