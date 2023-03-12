@@ -1,7 +1,7 @@
 import React from 'react'
 
 const InputText = ({name, label, value,onChange,errors}) => {
-   console.log(errors)
+   console.log(value)
   return (
     <div className="form-group">
         <label htmlFor={name}>{label}</label>

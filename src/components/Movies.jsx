@@ -8,6 +8,7 @@ import MovieTable from './MovieTable';
 import { faSortUp, faSortDown,faArrowUp,faArrowDown } from '@fortawesome/free-solid-svg-icons'
 import Navbar from './Navbar';
 import { NavLink } from 'react-router-dom';
+import InputText from "./InputText"
 
 
 class Movies extends Component{
@@ -20,7 +21,8 @@ class Movies extends Component{
         currentGenre:"",
         iconDisplay:faArrowDown,
         stockIconDisplay:faArrowDown,
-        ratingIconDisplay:faArrowDown
+        ratingIconDisplay:faArrowDown,
+        searchText:""
 
     }
 
@@ -78,6 +80,12 @@ class Movies extends Component{
     handlePageChange=(pageno)=>{
         this.setState({currentPage:pageno})
     }
+    handleSearch=(e)=>{
+        this.state.searchText=e.target.value
+        const searchText=this.state.searchText
+        const searchResult=this.state.movies.filter((item)=>item.title.includes(searchText,0))
+        this.setState({genreMovies:searchResult})
+    }
 
     render(){
        
@@ -98,7 +106,8 @@ class Movies extends Component{
                 {this.state.genreMovies.length>0?(
                     <p>Showing {this.state.genreMovies.length} movies in the database</p>
                 ): <p>There are no movies to display</p> }
-                
+                <InputText name="search" label="Search" value={this.state.currentGenre.searchText} onChange={this.handleSearch}/>
+
                 <MovieTable 
                 Paginatedmovies={Paginatedmovies}
                 handleDelete={this.handleDelete}
